@@ -79,7 +79,11 @@ export default function App() {
   const handleOnboardingSave = (info: Partial<UserProfile>) => {
     saveProfile(info);
     setIsOnboardingOpen(false);
-    confetti({ particleCount: 50, spread: 60 });
+    confetti({ 
+      particleCount: 70, 
+      spread: 70,
+      colors: ['#f59e0b', '#fbbf24', '#ffffff', '#71717a']
+    });
   };
 
   const handleEditProfileSave = (info: Partial<UserProfile>) => {
@@ -92,17 +96,14 @@ export default function App() {
     if (!userProfile.solvedProblemIds.includes(problemId)) {
       const nextSolved = [...userProfile.solvedProblemIds, problemId];
       
-      // Check for badge unlocks
       const nextBadges = [...userProfile.earnedBadgeIds];
       if (!nextBadges.includes('b-first-step')) nextBadges.push('b-first-step');
 
-      // Module 1 check
       const mod1Ids = allProblems.filter(p => p.moduleNumber === 1).map(p => p.id);
       if (mod1Ids.every(id => nextSolved.includes(id)) && !nextBadges.includes('b-graph-architect')) {
         nextBadges.push('b-graph-architect');
       }
 
-      // Check all 34 solved
       if (nextSolved.length >= 34 && !nextBadges.includes('b-jiet-excellence')) {
         nextBadges.push('b-jiet-excellence');
       }
@@ -113,8 +114,9 @@ export default function App() {
       });
 
       confetti({
-        particleCount: 60,
-        spread: 60,
+        particleCount: 80,
+        spread: 70,
+        colors: ['#f59e0b', '#fbbf24', '#ffffff', '#a1a1aa'],
         origin: { y: 0.7 }
       });
     }
@@ -130,7 +132,7 @@ export default function App() {
   const isCurrentProblemSolved = solvedSet.has(currentProblem.id);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-blue-600/30">
+    <div className="min-h-screen bg-[#070709] text-zinc-100 font-sans selection:bg-amber-400/30">
       
       {/* 3-Zone Header Contract */}
       <Header
@@ -142,7 +144,7 @@ export default function App() {
         totalProblems={allProblems.length}
       />
 
-      {/* Main App Container (baseline width 1440px / max-w-7xl) */}
+      {/* Main App Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8">
         {currentTab === 'curriculum' && (
           <CurriculumView
@@ -197,7 +199,7 @@ export default function App() {
         )}
       </main>
 
-      {/* Onboarding Modal (No Sign-Up Needed, Enter Name to begin) */}
+      {/* Onboarding Modal */}
       <OnboardingModal
         isOpen={isOnboardingOpen}
         onSave={handleOnboardingSave}
@@ -221,16 +223,16 @@ export default function App() {
         credentialId={verificationCredentialId || userProfile.certificateId}
       />
 
-      {/* Quiet Academic Footer (Anti-Slop compliant: no telemetry tickers) */}
-      <footer className="mt-16 border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 space-y-2">
-          <div className="font-semibold text-slate-400">
+      {/* Elite Academic Footer */}
+      <footer className="mt-20 border-t border-zinc-900 bg-black py-10 text-center text-xs text-zinc-500">
+        <div className="max-w-7xl mx-auto px-4 space-y-2.5">
+          <div className="font-bold text-zinc-300 font-serif tracking-wide text-sm">
             JODHPUR INSTITUTE OF ENGINEERING AND TECHNOLOGY · JIET CONNECT
           </div>
-          <p className="text-[11px] text-slate-500">
+          <p className="text-[11px] text-amber-400 font-medium">
             An All-in-One Educational Hub for Comprehensive Coding Practice · Powered by Kapil
           </p>
-          <div className="text-[10px] text-slate-600">
+          <div className="text-[10px] text-zinc-600">
             Autonomous Institution · Approved by AICTE, Affiliated to BTU Bikaner · NH-62, Mogra, Jodhpur, Rajasthan
           </div>
         </div>

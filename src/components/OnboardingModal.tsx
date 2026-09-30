@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { UserProfile, Language } from '../types';
-import { GraduationCap, Sparkles, CheckCircle2, BookOpen } from 'lucide-react';
+import { GraduationCap, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -37,39 +37,42 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl text-slate-100">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+      <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl shadow-black text-zinc-100 relative overflow-hidden">
         
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400">
+        {/* Subtle Luxury Gold Ambient Corner Light */}
+        <div className="absolute -top-16 -right-16 w-36 h-36 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="flex items-center gap-3.5 mb-6 relative">
+          <div className="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400 shadow-inner">
             <GraduationCap className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">
-              {isEditMode ? 'Learner Profile Settings' : 'Begin Your Coding Journey'}
+            <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+              <span>{isEditMode ? 'Learner Profile Settings' : 'Begin Your Coding Journey'}</span>
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-amber-400/90 font-medium tracking-wide">
               Jodhpur Institute of Engineering & Technology · JIET CONNECT
             </p>
           </div>
         </div>
 
         {!isEditMode && (
-          <div className="p-3.5 mb-6 rounded-xl bg-slate-800/60 border border-slate-700/50 text-xs text-slate-300 space-y-1">
-            <div className="flex items-center gap-1.5 font-medium text-blue-400">
+          <div className="p-4 mb-6 rounded-xl bg-zinc-900/90 border border-amber-500/20 text-xs text-zinc-300 space-y-1.5 relative">
+            <div className="flex items-center gap-1.5 font-bold text-amber-400 uppercase tracking-wider text-[11px]">
               <Sparkles className="w-3.5 h-3.5" />
               <span>No Sign-Up or Passwords Required</span>
             </div>
-            <p className="text-slate-400">
-              Enter your name to personalize your coding workspace, solve programs in C, C++, Java, & Python, unlock engineering badges, and generate official QR-verified certificates powered by Kapil.
+            <p className="text-zinc-400 leading-relaxed">
+              Enter your name to personalize your elite engineering workspace, solve programs in C, C++, Java, & Python, unlock prestige badges, and generate official QR-verified certificates powered by Kapil.
             </p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 relative">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-              Full Name <span className="text-blue-400">*</span>
+            <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+              Full Name <span className="text-amber-400">*</span>
             </label>
             <input
               type="text"
@@ -77,16 +80,16 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Aditya Sharma"
-              className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
             />
-            <span className="text-[11px] text-slate-400 mt-1 block">
-              This name will be printed on your official QR-verified certificate.
+            <span className="text-[11px] text-zinc-500 mt-1 block">
+              This name will be embossed on your official QR-verified certificate.
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
                 Roll / Scholar No. (Optional)
               </label>
               <input
@@ -94,18 +97,18 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                 value={rollNo}
                 onChange={(e) => setRollNo(e.target.value)}
                 placeholder="e.g. 21EJICS042"
-                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
                 Department / Branch
               </label>
               <select
                 value={branch}
                 onChange={(e) => setBranch(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3.5 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
               >
                 <option value="Computer Science & Engineering">CSE (Computer Science)</option>
                 <option value="Information Technology">Information Technology</option>
@@ -118,7 +121,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
               Preferred Starter Language
             </label>
             <div className="grid grid-cols-4 gap-2">
@@ -127,10 +130,10 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
                   type="button"
                   key={lang}
                   onClick={() => setPreferredLanguage(lang)}
-                  className={`py-2 px-3 text-xs font-semibold rounded-lg border text-center transition-all ${
+                  className={`py-2 px-3 text-xs font-bold rounded-lg border text-center transition-all ${
                     preferredLanguage === lang
-                      ? 'bg-blue-600 border-blue-500 text-white shadow-sm'
-                      : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-700'
+                      ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500 border-amber-400 text-black shadow-md'
+                      : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:border-zinc-700'
                   }`}
                 >
                   {lang === 'cpp' ? 'C++' : lang.toUpperCase()}
@@ -144,7 +147,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-semibold text-slate-300 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+                className="px-4 py-2 text-xs font-semibold text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-900 transition-colors"
               >
                 Cancel
               </button>
@@ -152,10 +155,10 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
             <button
               type="submit"
               disabled={!name.trim()}
-              className="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs sm:text-sm font-semibold shadow-md transition-all flex items-center gap-2"
+              className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 disabled:opacity-50 text-black text-xs sm:text-sm font-bold shadow-lg shadow-amber-500/20 transition-all flex items-center gap-2"
             >
               <span>{isEditMode ? 'Update Profile' : 'Start Practicing Now'}</span>
-              <CheckCircle2 className="w-4 h-4" />
+              <CheckCircle2 className="w-4 h-4 fill-black text-amber-300" />
             </button>
           </div>
         </form>

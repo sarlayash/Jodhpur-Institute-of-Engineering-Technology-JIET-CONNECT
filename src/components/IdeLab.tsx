@@ -10,11 +10,9 @@ import {
   HardDrive, 
   CheckCircle2, 
   XCircle, 
-  Terminal, 
   Code2, 
   Lightbulb, 
   Eye, 
-  BookOpen,
   ChevronDown
 } from 'lucide-react';
 
@@ -66,7 +64,7 @@ export const IdeLab: React.FC<IdeLabProps> = ({
   };
 
   const handleLoadFullSolution = () => {
-    setCode(currentProblem.starterCode[language]); // starter has full solution runnable implementation
+    setCode(currentProblem.starterCode[language]);
   };
 
   const handleCopyCode = () => {
@@ -102,7 +100,7 @@ export const IdeLab: React.FC<IdeLabProps> = ({
     <div className="space-y-4 pb-12">
       
       {/* Top Problem Navigation & Language Bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 shadow-sm">
+      <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 shadow-xl">
         
         {/* Problem Selector Dropdown */}
         <div className="flex items-center gap-3">
@@ -113,7 +111,7 @@ export const IdeLab: React.FC<IdeLabProps> = ({
                 const found = allProblems.find((p) => p.id === e.target.value);
                 if (found) onSelectProblem(found);
               }}
-              className="w-full appearance-none px-3.5 py-2 pr-9 rounded-lg bg-slate-800 border border-slate-700 text-white font-medium text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              className="w-full appearance-none px-3.5 py-2 pr-9 rounded-lg bg-zinc-900 border border-zinc-800 text-white font-medium text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer"
             >
               {allProblems.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -121,12 +119,12 @@ export const IdeLab: React.FC<IdeLabProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown className="w-4 h-4 text-zinc-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
           {isSolved && (
-            <span className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 bg-emerald-950/40 border border-emerald-800/60 px-2.5 py-1 rounded-md">
-              <CheckCircle2 className="w-3.5 h-3.5" /> Solved
+            <span className="hidden sm:inline-flex items-center gap-1 text-xs font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2.5 py-1 rounded-md">
+              <CheckCircle2 className="w-3.5 h-3.5 fill-amber-400 text-black" /> Solved
             </span>
           )}
         </div>
@@ -135,15 +133,15 @@ export const IdeLab: React.FC<IdeLabProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           
           {/* Languages: C, C++, Java, Python */}
-          <div className="flex items-center gap-1 p-1 bg-slate-800 rounded-lg">
+          <div className="flex items-center gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
             {(['c', 'cpp', 'java', 'python'] as Language[]).map((lang) => (
               <button
                 key={lang}
                 onClick={() => handleLanguageChange(lang)}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
+                className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${
                   language === lang
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-black shadow-md'
+                    : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 {lang === 'cpp' ? 'C++' : lang.toUpperCase()}
@@ -154,26 +152,26 @@ export const IdeLab: React.FC<IdeLabProps> = ({
           {/* Quick Actions */}
           <button
             onClick={handleCopyCode}
-            className="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs transition-colors"
+            className="p-2 text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-xs transition-colors"
             title="Copy Code"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-amber-400" /> : <Copy className="w-4 h-4" />}
           </button>
           <button
             onClick={handleResetStarter}
-            className="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs transition-colors"
+            className="p-2 text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-xs transition-colors"
             title="Reset to Starter Code"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
 
-          {/* Run Code Button */}
+          {/* Run Code Button (Elite Gold) */}
           <button
             onClick={handleRunCode}
             disabled={isRunning}
-            className="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white flex items-center gap-1.5 shadow-md transition-colors"
+            className="px-4 py-2 text-xs sm:text-sm font-extrabold rounded-lg bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 disabled:opacity-50 text-black flex items-center gap-1.5 shadow-lg shadow-amber-500/20 transition-all active:scale-95"
           >
-            <Play className="w-4 h-4 fill-white" />
+            <Play className="w-4 h-4 fill-black" />
             <span>{isRunning ? 'Compiling...' : 'Run & Test'}</span>
           </button>
 
@@ -187,81 +185,81 @@ export const IdeLab: React.FC<IdeLabProps> = ({
         {/* Left Column: Problem Brief & Complexity Specification (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
           
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-5 shadow-xl space-y-4">
             
             {/* Header info */}
             <div>
-              <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
+              <div className="flex items-center gap-2 text-xs text-zinc-400 mb-1">
                 <span>Module {currentProblem.moduleNumber}: {currentProblem.moduleName}</span>
-                <span aria-hidden="true">·</span>
-                <span className={currentProblem.type === 'Inclass' ? 'text-amber-400' : 'text-purple-400'}>
+                <span aria-hidden="true" className="text-zinc-600">·</span>
+                <span className="text-amber-400 font-bold">
                   {currentProblem.type}
                 </span>
               </div>
-              <h2 className="text-xl font-bold text-white tracking-tight">
+              <h2 className="text-xl font-bold text-white tracking-tight font-serif">
                 {currentProblem.title}
               </h2>
             </div>
 
             {/* Real World Scenario */}
-            <div className="p-3 rounded-lg bg-blue-950/20 border border-blue-900/40 text-xs text-blue-200 leading-relaxed">
-              <span className="font-semibold text-blue-300 block mb-0.5">Engineering Context:</span>
+            <div className="p-3.5 rounded-lg bg-zinc-900/90 border border-amber-500/20 text-xs text-zinc-300 leading-relaxed">
+              <span className="font-bold text-amber-400 block mb-0.5 uppercase tracking-wider text-[10px]">Engineering Context</span>
               {currentProblem.realWorldScenario}
             </div>
 
             {/* Description */}
             <div>
-              <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
                 Problem Statement
               </h4>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
                 {currentProblem.description}
               </p>
             </div>
 
             {/* Pattern Badge */}
-            <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-700/60 text-xs text-slate-300 space-y-1">
+            <div className="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-white flex items-center gap-1.5">
+                <span className="font-bold text-white flex items-center gap-1.5">
                   <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Pattern: {currentProblem.patternName}</span>
+                  <span className="text-amber-300">Pattern: {currentProblem.patternName}</span>
                 </span>
                 <button
                   onClick={onSwitchToTips}
-                  className="text-[11px] text-blue-400 hover:underline font-medium"
+                  className="text-[11px] text-amber-400 hover:text-amber-300 font-semibold"
                 >
                   Tips & Tricks →
                 </button>
               </div>
-              <p className="text-slate-400 text-[11px] leading-relaxed">
+              <p className="text-zinc-400 text-[11px] leading-relaxed">
                 {currentProblem.patternWhy}
               </p>
             </div>
 
             {/* Complexity Specs */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-700/60 text-xs">
-                <div className="flex items-center gap-1.5 text-slate-400 mb-1">
-                  <Clock className="w-3.5 h-3.5 text-blue-400" />
-                  <span className="font-semibold text-slate-200">Time Complexity</span>
+              <div className="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs">
+                <div className="flex items-center gap-1.5 text-zinc-400 mb-1">
+                  <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="font-semibold text-zinc-200">Time Complexity</span>
                 </div>
-                <div className="font-mono text-sm font-bold text-blue-300">
+                <div className="font-mono text-sm font-bold text-amber-300">
                   {currentProblem.timeComplexity.average}
                 </div>
-                <div className="text-[11px] text-slate-400 mt-1 line-clamp-2">
+                <div className="text-[11px] text-zinc-500 mt-1 line-clamp-2">
                   {currentProblem.timeComplexity.explanation}
                 </div>
               </div>
 
-              <div className="p-3 rounded-lg bg-slate-800/60 border border-slate-700/60 text-xs">
-                <div className="flex items-center gap-1.5 text-slate-400 mb-1">
-                  <HardDrive className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="font-semibold text-slate-200">Memory Space</span>
+              <div className="p-3.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs">
+                <div className="flex items-center gap-1.5 text-zinc-400 mb-1">
+                  <HardDrive className="w-3.5 h-3.5 text-zinc-400" />
+                  <span className="font-semibold text-zinc-200">Memory Space</span>
                 </div>
-                <div className="font-mono text-sm font-bold text-emerald-300">
+                <div className="font-mono text-sm font-bold text-zinc-300">
                   {currentProblem.memoryComplexity.space}
                 </div>
-                <div className="text-[11px] text-slate-400 mt-1 line-clamp-2">
+                <div className="text-[11px] text-zinc-500 mt-1 line-clamp-2">
                   {currentProblem.memoryComplexity.explanation}
                 </div>
               </div>
@@ -269,21 +267,21 @@ export const IdeLab: React.FC<IdeLabProps> = ({
 
             {/* Sample Test Case Previews */}
             <div>
-              <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
                 Sample Test Vectors
               </h4>
               <div className="space-y-2">
                 {currentProblem.testCases.map((tc, idx) => (
-                  <div key={tc.id || idx} className="p-2.5 rounded bg-slate-800 border border-slate-700/60 text-xs font-mono space-y-1">
-                    <div className="flex items-center justify-between text-slate-400 text-[11px]">
-                      <span>Test Case #{idx + 1}</span>
-                      {tc.explanation && <span className="font-sans text-[11px] text-slate-500 truncate max-w-[200px]">{tc.explanation}</span>}
+                  <div key={tc.id || idx} className="p-2.5 rounded bg-zinc-900 border border-zinc-800 text-xs font-mono space-y-1">
+                    <div className="flex items-center justify-between text-zinc-400 text-[11px]">
+                      <span className="text-amber-400 font-bold">Vector #{idx + 1}</span>
+                      {tc.explanation && <span className="font-sans text-[11px] text-zinc-500 truncate max-w-[200px]">{tc.explanation}</span>}
                     </div>
-                    <div className="text-slate-300">
-                      <span className="text-slate-500 font-sans">Input: </span>{tc.input.replace(/\n/g, ' ')}
+                    <div className="text-zinc-300">
+                      <span className="text-zinc-500 font-sans">Input: </span>{tc.input.replace(/\n/g, ' ')}
                     </div>
-                    <div className="text-blue-300">
-                      <span className="text-slate-500 font-sans">Expected: </span>{tc.expectedOutput.replace(/\n/g, ' ')}
+                    <div className="text-amber-300">
+                      <span className="text-zinc-500 font-sans">Expected: </span>{tc.expectedOutput.replace(/\n/g, ' ')}
                     </div>
                   </div>
                 ))}
@@ -294,9 +292,9 @@ export const IdeLab: React.FC<IdeLabProps> = ({
             <div className="pt-2">
               <button
                 onClick={onSwitchToVisualizer}
-                className="w-full py-2 px-3 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center gap-2 border border-slate-700 transition-colors"
+                className="w-full py-2.5 px-3 text-xs font-semibold rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-200 flex items-center justify-center gap-2 border border-zinc-800 hover:border-amber-500/40 transition-all"
               >
-                <Eye className="w-4 h-4 text-blue-400" />
+                <Eye className="w-4 h-4 text-amber-400" />
                 <span>Open Interactive Step-by-Step Visualizer</span>
               </button>
             </div>
@@ -309,73 +307,73 @@ export const IdeLab: React.FC<IdeLabProps> = ({
         <div className="lg:col-span-7 flex flex-col space-y-4">
           
           {/* Code Editor Container */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm flex flex-col flex-1">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden shadow-xl flex flex-col flex-1">
             
             {/* Editor Top Bar */}
-            <div className="bg-slate-950 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400">
+            <div className="bg-black px-4 py-2.5 border-b border-zinc-800 flex items-center justify-between text-xs text-zinc-400">
               <div className="flex items-center gap-2">
-                <Code2 className="w-4 h-4 text-blue-400" />
-                <span className="font-mono text-slate-300">
+                <Code2 className="w-4 h-4 text-amber-400" />
+                <span className="font-mono text-zinc-200 font-bold">
                   solution.{language === 'cpp' ? 'cpp' : language === 'c' ? 'c' : language === 'java' ? 'java' : 'py'}
                 </span>
-                <span className="text-[11px] text-slate-500">
+                <span className="text-[11px] text-zinc-500">
                   (Ready to compile)
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={handleLoadFullSolution}
-                  className="text-blue-400 hover:text-blue-300 text-[11px] font-medium"
+                  className="text-amber-400 hover:text-amber-300 text-[11px] font-semibold"
                 >
                   Reload Template
                 </button>
               </div>
             </div>
 
-            {/* Textarea Editor with Monospace Styling */}
-            <div className="relative flex-1 min-h-[360px] bg-slate-950 p-4 font-mono text-xs sm:text-sm text-slate-200 leading-relaxed">
+            {/* Textarea Editor with Obsidian Styling */}
+            <div className="relative flex-1 min-h-[380px] bg-black p-4 font-mono text-xs sm:text-sm text-zinc-200 leading-relaxed">
               <textarea
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 spellCheck={false}
-                className="w-full h-full min-h-[360px] bg-transparent resize-none border-none outline-none font-mono text-slate-100 selection:bg-blue-600/30 whitespace-pre"
+                className="w-full h-full min-h-[380px] bg-transparent resize-none border-none outline-none font-mono text-zinc-100 selection:bg-amber-400/30 whitespace-pre"
               />
             </div>
 
           </div>
 
           {/* Console & Test Execution Results */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden shadow-xl">
             
             {/* Console Tabs */}
-            <div className="bg-slate-950 px-4 border-b border-slate-800 flex items-center justify-between">
+            <div className="bg-black px-4 border-b border-zinc-800 flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setActiveTab('tests')}
-                  className={`px-3 py-2 text-xs font-semibold border-b-2 transition-colors ${
+                  className={`px-3 py-2 text-xs font-bold border-b-2 transition-all ${
                     activeTab === 'tests'
-                      ? 'border-blue-500 text-blue-400'
-                      : 'border-transparent text-slate-400 hover:text-white'
+                      ? 'border-amber-400 text-amber-300'
+                      : 'border-transparent text-zinc-500 hover:text-white'
                   }`}
                 >
                   Test Results {executionResult && `(${executionResult.passedTests}/${executionResult.totalTests})`}
                 </button>
                 <button
                   onClick={() => setActiveTab('console')}
-                  className={`px-3 py-2 text-xs font-semibold border-b-2 transition-colors ${
+                  className={`px-3 py-2 text-xs font-bold border-b-2 transition-all ${
                     activeTab === 'console'
-                      ? 'border-blue-500 text-blue-400'
-                      : 'border-transparent text-slate-400 hover:text-white'
+                      ? 'border-amber-400 text-amber-300'
+                      : 'border-transparent text-zinc-500 hover:text-white'
                   }`}
                 >
                   Compiler Output
                 </button>
                 <button
                   onClick={() => setActiveTab('custom')}
-                  className={`px-3 py-2 text-xs font-semibold border-b-2 transition-colors ${
+                  className={`px-3 py-2 text-xs font-bold border-b-2 transition-all ${
                     activeTab === 'custom'
-                      ? 'border-blue-500 text-blue-400'
-                      : 'border-transparent text-slate-400 hover:text-white'
+                      ? 'border-amber-400 text-amber-300'
+                      : 'border-transparent text-zinc-500 hover:text-white'
                   }`}
                 >
                   Custom Input
@@ -383,14 +381,14 @@ export const IdeLab: React.FC<IdeLabProps> = ({
               </div>
 
               {executionResult && (
-                <div className="flex items-center gap-3 text-xs font-mono text-slate-400 py-1">
+                <div className="flex items-center gap-3 text-xs font-mono text-zinc-400 py-1">
                   <span className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-blue-400" />
-                    <span>{executionResult.runtimeMs} ms</span>
+                    <Clock className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="text-white font-bold">{executionResult.runtimeMs} ms</span>
                   </span>
                   <span className="flex items-center gap-1">
-                    <HardDrive className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>{executionResult.memoryKb} KB</span>
+                    <HardDrive className="w-3.5 h-3.5 text-zinc-400" />
+                    <span className="text-zinc-300">{executionResult.memoryKb} KB</span>
                   </span>
                 </div>
               )}
@@ -403,25 +401,25 @@ export const IdeLab: React.FC<IdeLabProps> = ({
               {activeTab === 'tests' && (
                 <div>
                   {!executionResult ? (
-                    <div className="text-slate-500 text-center py-8">
-                      Click <strong className="text-emerald-400">"Run & Test"</strong> to compile and execute test vectors.
+                    <div className="text-zinc-500 text-center py-8">
+                      Press <strong className="text-amber-400">"Run & Test"</strong> to compile and execute against the curriculum test matrix.
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                      <div className="flex items-center justify-between pb-2 border-b border-zinc-800">
                         <div className="flex items-center gap-2">
                           {executionResult.passed ? (
-                            <span className="text-emerald-400 font-bold flex items-center gap-1 text-sm">
-                              <CheckCircle2 className="w-4 h-4" /> Passed All Test Cases
+                            <span className="text-amber-400 font-bold flex items-center gap-1 text-sm">
+                              <CheckCircle2 className="w-4 h-4 fill-amber-400 text-black" /> PASSED ALL TEST CASES
                             </span>
                           ) : (
                             <span className="text-rose-400 font-bold flex items-center gap-1 text-sm">
-                              <XCircle className="w-4 h-4" /> Test Cases Failed ({executionResult.passedTests}/{executionResult.totalTests})
+                              <XCircle className="w-4 h-4" /> TEST CASES FAILED ({executionResult.passedTests}/{executionResult.totalTests})
                             </span>
                           )}
                         </div>
-                        <div className="text-slate-400 text-xs">
-                          Simulated Execution: <span className="text-white font-mono">{executionResult.runtimeMs}ms</span>
+                        <div className="text-zinc-400 text-xs">
+                          Execution: <span className="text-white font-mono">{executionResult.runtimeMs}ms</span>
                         </div>
                       </div>
 
@@ -431,27 +429,27 @@ export const IdeLab: React.FC<IdeLabProps> = ({
                             key={td.testId}
                             className={`p-3 rounded-lg border text-xs font-mono space-y-1 ${
                               td.passed
-                                ? 'bg-emerald-950/20 border-emerald-900/40 text-emerald-200'
+                                ? 'bg-zinc-900 border-amber-500/30 text-zinc-200'
                                 : 'bg-rose-950/20 border-rose-900/40 text-rose-200'
                             }`}
                           >
                             <div className="flex items-center justify-between">
-                              <span className="font-bold">
+                              <span className="font-bold text-amber-300">
                                 Case #{idx + 1}: {td.passed ? 'ACCEPTED' : 'WRONG ANSWER'}
                               </span>
-                              <span className="text-slate-400 text-[11px]">{td.durationMs}ms</span>
+                              <span className="text-zinc-500 text-[11px]">{td.durationMs}ms</span>
                             </div>
-                            <div className="text-slate-300">
-                              <span className="text-slate-500">Input: </span>
+                            <div className="text-zinc-300">
+                              <span className="text-zinc-500">Input: </span>
                               {td.input}
                             </div>
                             <div>
-                              <span className="text-slate-500">Expected: </span>
-                              <span className="text-blue-300">{td.expected}</span>
+                              <span className="text-zinc-500">Expected: </span>
+                              <span className="text-amber-300">{td.expected}</span>
                             </div>
                             <div>
-                              <span className="text-slate-500">Actual: </span>
-                              <span className={td.passed ? 'text-emerald-300' : 'text-rose-300 font-bold'}>
+                              <span className="text-zinc-500">Actual: </span>
+                              <span className={td.passed ? 'text-white' : 'text-rose-300 font-bold'}>
                                 {td.actual}
                               </span>
                             </div>
@@ -465,19 +463,19 @@ export const IdeLab: React.FC<IdeLabProps> = ({
 
               {/* Tab: Compiler Output */}
               {activeTab === 'console' && (
-                <div className="font-mono text-xs text-slate-300 space-y-1 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                <div className="font-mono text-xs text-zinc-300 space-y-1 bg-black p-3.5 rounded-lg border border-zinc-800">
                   {!executionResult ? (
-                    <div className="text-slate-500">Ready for compiler diagnostics...</div>
+                    <div className="text-zinc-600">Ready for compiler diagnostics...</div>
                   ) : (
                     executionResult.consoleLogs.map((log, i) => (
                       <div
                         key={i}
                         className={
                           log.includes('[SUCCESS]')
-                            ? 'text-emerald-400 font-semibold'
+                            ? 'text-amber-400 font-bold'
                             : log.includes('[Error]') || log.includes('failed')
                             ? 'text-rose-400 font-semibold'
-                            : 'text-slate-400'
+                            : 'text-zinc-400'
                         }
                       >
                         {log}
@@ -491,7 +489,7 @@ export const IdeLab: React.FC<IdeLabProps> = ({
               {activeTab === 'custom' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    <label className="block text-xs font-semibold text-zinc-300 mb-1">
                       Custom Test Input:
                     </label>
                     <textarea
@@ -499,11 +497,11 @@ export const IdeLab: React.FC<IdeLabProps> = ({
                       onChange={(e) => setCustomInput(e.target.value)}
                       placeholder="Enter raw input format matching the problem constraints..."
                       rows={2}
-                      className="w-full px-3 py-2 rounded bg-slate-800 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 rounded bg-zinc-900 border border-zinc-800 text-white font-mono text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    <label className="block text-xs font-semibold text-zinc-300 mb-1">
                       Expected Output (Optional):
                     </label>
                     <input
@@ -511,10 +509,10 @@ export const IdeLab: React.FC<IdeLabProps> = ({
                       value={customExpected}
                       onChange={(e) => setCustomExpected(e.target.value)}
                       placeholder="Expected output string..."
-                      className="w-full px-3 py-2 rounded bg-slate-800 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 rounded bg-zinc-900 border border-zinc-800 text-white font-mono text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
                     />
                   </div>
-                  <div className="text-[11px] text-slate-400">
+                  <div className="text-[11px] text-zinc-500">
                     Switch to this tab and press "Run & Test" to execute your custom test input.
                   </div>
                 </div>
