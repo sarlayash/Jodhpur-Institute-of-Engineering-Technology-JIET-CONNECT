@@ -24,6 +24,9 @@ export interface PlacementReportData {
   solvedCount: number;
   totalCount: number;
   completionRate: number;
+  aptitudeScore: number;
+  mockAssessmentsCompleted: number;
+  unlockedTitles: string[];
   moduleMastery: ModuleMastery[];
   strengths: {
     title: string;
@@ -43,7 +46,13 @@ export interface PlacementReportData {
   }[];
 }
 
-export function generatePlacementReport(userProfile: UserProfile, allProblems: Problem[]): PlacementReportData {
+export function generatePlacementReport(
+  userProfile: UserProfile, 
+  allProblems: Problem[],
+  aptitudeScore: number = 0,
+  mockAssessmentsCompleted: number = 0,
+  mockTitles: string[] = []
+): PlacementReportData {
   const solvedSet = new Set(userProfile.solvedProblemIds || []);
   const totalCount = allProblems.length;
   const solvedCount = allProblems.filter((p) => solvedSet.has(p.id)).length;
@@ -71,22 +80,27 @@ export function generatePlacementReport(userProfile: UserProfile, allProblems: P
     };
   });
 
-  // Calculate Placement Readiness Score (1 to 100)
-  // Baseline onboarding score is 32 (foundational engineering aptitude)
-  // Each solved problem contributes proportional points
-  // Modules covered and language preference give dynamic balance
-  const problemPoints = (solvedCount / totalCount) * 58; // up to 58 points
+  // Calculate 360° Placement Readiness Score (1 to 100)
+  // Combines:
+  // 1. Core Curriculum Problems (up to 50 pts)
+  // 2. Module Breadth Coverage (up to 15 pts)
+  // 3. Aptitude & Placement Wheel Quiz Points (up to 15 pts)
+  // 4. Mock Assessments (up to 20 pts)
+  const curriculumPoints = (solvedCount / totalCount) * 50;
   const modulesCovered = moduleMastery.filter((m) => m.solvedProblems > 0).length;
-  const breadthBonus = (modulesCovered / 8) * 10; // up to 10 points
-  
-  let rawScore = Math.round(32 + problemPoints + breadthBonus);
-  if (solvedCount === totalCount) rawScore = 100;
-  else if (solvedCount === 0) rawScore = 35;
+  const breadthBonus = (modulesCovered / 8) * 15;
+  const aptitudeBonus = Math.min(15, (aptitudeScore / 100) * 15);
+  const mockBonus = Math.min(20, mockAssessmentsCompleted * 4);
+
+  let rawScore = Math.round(25 + curriculumPoints + breadthBonus + aptitudeBonus + mockBonus);
+  if (solvedCount === totalCount && mockAssessmentsCompleted >= 3) rawScore = 100;
+  else if (solvedCount === 0 && aptitudeScore === 0) rawScore = 32;
+
   const score = Math.min(100, Math.max(1, rawScore));
 
   let tier = 'Foundation Engineering Tier';
   let tierDescription = 'Solid grasp of core programming syntax with potential for rapid algorithmic growth.';
-  let percentile = 45;
+  let percentile = 48;
 
   if (score >= 90) {
     tier = 'Tier-1 Elite / FAANG Ready';
@@ -106,7 +120,7 @@ export function generatePlacementReport(userProfile: UserProfile, allProblems: P
     percentile = 55;
   }
 
-  // Dynamic Strengths based on solved modules
+  // Strengths
   const strengths = [];
   const masteredOrProficient = moduleMastery.filter(m => m.percentage >= 50);
 
@@ -154,7 +168,7 @@ export function generatePlacementReport(userProfile: UserProfile, allProblems: P
     });
   }
 
-  // Dynamic Weaknesses & Blind Spots based on unsolved modules
+  // Weaknesses & Blind Spots
   const weaknesses = [];
   const incompleteModules = moduleMastery.filter(m => m.percentage < 60);
 
@@ -193,17 +207,17 @@ export function generatePlacementReport(userProfile: UserProfile, allProblems: P
   // 4-Phase Opportunity Roadmap
   const opportunityRoadmap = [
     {
-      phase: 'Week 1: Core Fundamentals & Array Invariants',
+      phase: 'Phase 1: Core Fundamentals & Invariants',
       focus: 'Two Pointers, In-place Reversals, and Sliding Window',
       actionItems: [
-        'Solve all Module 2 & Module 6 postclass challenges with O(1) extra space.',
+        'Solve all Module 2 & Module 6 challenges with O(1) extra space.',
         'Implement zero-sum 3-pointer checks without hashing to avoid memory allocations.',
         'Review edge-case conditions with negative values and duplicates.'
       ],
       targetCompanies: 'TCS Digital, Cognizant GenC, Infosys DSE'
     },
     {
-      phase: 'Week 2: Mathematical Engineering & Bitwise Precision',
+      phase: 'Phase 2: Mathematical Engineering & Precision',
       focus: 'Sieve of Eratosthenes, Modulo Arithmetic & Prime Sieving',
       actionItems: [
         'Master the O(sqrt(N)) primality boundaries and LCM synchronization formulas.',
@@ -213,7 +227,7 @@ export function generatePlacementReport(userProfile: UserProfile, allProblems: P
       targetCompanies: 'Capgemini, Wipro Turbo, Persistent Systems'
     },
     {
-      phase: 'Week 3: Advanced Divide-and-Conquer & Search',
+      phase: 'Phase 3: Advanced Divide-and-Conquer',
       focus: 'Rotated Binary Search, QuickSort In-Place Partitioning & MergeSort',
       actionItems: [
         'Practice finding pivot points in shifted arrays in strictly O(log N).',
@@ -223,19 +237,27 @@ export function generatePlacementReport(userProfile: UserProfile, allProblems: P
       targetCompanies: 'Amazon, Microsoft, Oracle, Cisco'
     },
     {
-      phase: 'Week 4: Real-World Systems & Placement Mock Drives',
-      focus: 'Graph Road Networks, BFS Shortest Path & Behavioral Delivery',
+      phase: 'Phase 4: Real-World Systems & Placement Mocks',
+      focus: 'Graph Networks, BFS Shortest Path & 30-Min Assessments',
       actionItems: [
-        'Represent sparse road networks using adjacency lists with edge weight structs.',
-        'Conduct 3 timed mock coding rounds in the JIET IDE under 20-minute limits.',
-        'Download and attach the QR-verified JIET Placement Certificate to LinkedIn & Resume.'
+        'Complete all 5 Mock Assessments with 30-min timer.',
+        'Spin the Aptitude Wheel to master 25 placement MCQs.',
+        'Attach the verified 360° Placement Report to LinkedIn & Resume.'
       ],
       targetCompanies: 'Google, Flipkart, Adobe, Tier-1 Product Companies'
     }
   ];
 
+  const titles = ['JIET Code Aspirant'];
+  if (score >= 60) titles.push('Placement Ready Engineer');
+  if (score >= 80) titles.push('Algorithmic Strategist');
+  if (score >= 90) titles.push('FAANG Placement Grandmaster');
+  mockTitles.forEach((t) => {
+    if (!titles.includes(t)) titles.push(t);
+  });
+
   return {
-    studentName: userProfile.name || 'Student Candidate',
+    studentName: userProfile.name || 'Honorable Student',
     rollNo: userProfile.rollNo || 'JIET-2026-REG',
     branch: userProfile.branch || 'Computer Science & Engineering',
     reportDate: new Date().toLocaleDateString('en-US', {
@@ -251,6 +273,9 @@ export function generatePlacementReport(userProfile: UserProfile, allProblems: P
     solvedCount,
     totalCount,
     completionRate,
+    aptitudeScore,
+    mockAssessmentsCompleted,
+    unlockedTitles: titles,
     moduleMastery,
     strengths,
     weaknesses,

@@ -10,15 +10,19 @@ import { CertificateView } from './components/CertificateView';
 import { VerificationModal } from './components/VerificationModal';
 import { PlacementReportModal } from './components/PlacementReportModal';
 import { BadgeDownloadModal } from './components/BadgeDownloadModal';
+import { SpinningWheelModal } from './components/SpinningWheelModal';
+import { MockAssessmentsView } from './components/MockAssessmentsView';
 import { allProblems } from './data/problemsData';
 import { initialBadges } from './data/badgesData';
 import { generatePlacementReport } from './utils/reportGenerator';
 import { Badge, Problem, UserProfile } from './types';
 
 const STORAGE_KEY = 'jiet_connect_learner_profile';
+const WHEEL_SCORE_KEY = 'jiet_connect_wheel_score';
+const MOCKS_KEY = 'jiet_connect_mocks_record';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<'curriculum' | 'ide' | 'visualizer' | 'patterns' | 'certificates'>('curriculum');
+  const [currentTab, setCurrentTab] = useState<'curriculum' | 'ide' | 'visualizer' | 'patterns' | 'certificates' | 'mocks'>('curriculum');
   const [currentProblem, setCurrentProblem] = useState<Problem>(allProblems[0]);
   
   // User Profile State
@@ -44,10 +48,34 @@ export default function App() {
     };
   });
 
+  // Wheel score & mock tests tracking
+  const [wheelScore, setWheelScore] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem(WHEEL_SCORE_KEY);
+      if (saved) return parseInt(saved, 10);
+    } catch {
+      // ignore
+    }
+    return 0;
+  });
+
+  const [completedMocks, setCompletedMocks] = useState<Record<string, number>>(() => {
+    try {
+      const saved = localStorage.getItem(MOCKS_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch {
+      // ignore
+    }
+    return {};
+  });
+
+  const [unlockedMockTitles, setUnlockedMockTitles] = useState<string[]>([]);
+
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isVerificationOpen, setIsVerificationOpen] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isWheelOpen, setIsWheelOpen] = useState(false);
   const [selectedBadgeForDownload, setSelectedBadgeForDownload] = useState<Badge | null>(null);
   const [verificationCredentialId, setVerificationCredentialId] = useState('');
 
@@ -100,7 +128,6 @@ export default function App() {
   const handleProblemSolved = (problemId: string) => {
     if (!userProfile.solvedProblemIds.includes(problemId)) {
       const nextSolved = [...userProfile.solvedProblemIds, problemId];
-      
       const nextBadges = [...userProfile.earnedBadgeIds];
       if (!nextBadges.includes('b-first-step')) nextBadges.push('b-first-step');
 
@@ -127,6 +154,44 @@ export default function App() {
     }
   };
 
+  // Spinning Wheel score updates
+  const handleWheelQuestionAnswered = (isCorrect: boolean, points: number) => {
+    if (isCorrect) {
+      setWheelScore((prev) => {
+        const next = prev + points;
+        try {
+          localStorage.setItem(WHEEL_SCORE_KEY, next.toString());
+        } catch {
+          // ignore
+        }
+        return next;
+      });
+
+      if (!userProfile.earnedBadgeIds.includes('b-aptitude-ace')) {
+        saveProfile({
+          earnedBadgeIds: [...userProfile.earnedBadgeIds, 'b-aptitude-ace']
+        });
+      }
+    }
+  };
+
+  // Mock Assessment completed
+  const handleSaveAssessmentResult = (assessmentId: string, score: number, titleUnlocked: string) => {
+    setCompletedMocks((prev) => {
+      const next = { ...prev, [assessmentId]: score };
+      try {
+        localStorage.setItem(MOCKS_KEY, JSON.stringify(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+
+    if (titleUnlocked && !unlockedMockTitles.includes(titleUnlocked)) {
+      setUnlockedMockTitles((prev) => [...prev, titleUnlocked]);
+    }
+  };
+
   const handleSelectProblem = (problem: Problem, tab: 'ide' | 'visualizer' | 'patterns' = 'ide') => {
     setCurrentProblem(problem);
     setCurrentTab(tab);
@@ -136,8 +201,14 @@ export default function App() {
   const solvedSet = new Set(userProfile.solvedProblemIds);
   const isCurrentProblemSolved = solvedSet.has(currentProblem.id);
 
-  // Compute live placement report data
-  const reportData = generatePlacementReport(userProfile, allProblems);
+  // Compute live 360° placement report data
+  const reportData = generatePlacementReport(
+    userProfile, 
+    allProblems, 
+    wheelScore, 
+    Object.keys(completedMocks).length,
+    unlockedMockTitles
+  );
 
   return (
     <div className="min-h-screen bg-[#070709] text-zinc-100 font-sans selection:bg-amber-400/30">
@@ -149,6 +220,7 @@ export default function App() {
         userProfile={userProfile}
         onOpenProfile={() => setIsEditProfileOpen(true)}
         onOpenPlacementReport={() => setIsReportOpen(true)}
+        onOpenWheel={() => setIsWheelOpen(true)}
         solvedCount={userProfile.solvedProblemIds.length}
         totalProblems={allProblems.length}
       />
@@ -194,6 +266,14 @@ export default function App() {
           />
         )}
 
+        {currentTab === 'mocks' && (
+          <MockAssessmentsView
+            userProfile={userProfile}
+            onSaveAssessmentResult={handleSaveAssessmentResult}
+            onOpenReport={() => setIsReportOpen(true)}
+          />
+        )}
+
         {currentTab === 'certificates' && (
           <CertificateView
             userProfile={userProfile}
@@ -226,7 +306,7 @@ export default function App() {
         isEditMode={true}
       />
 
-      {/* QR Credential Verification Live Modal */}
+      {/* QR Credential Verification Live Modal (Universal Mobile-Proof) */}
       <VerificationModal
         isOpen={isVerificationOpen}
         onClose={() => setIsVerificationOpen(false)}
@@ -234,7 +314,7 @@ export default function App() {
         credentialId={verificationCredentialId || userProfile.certificateId}
       />
 
-      {/* Comprehensive Placement Readiness Diagnostic Report Modal */}
+      {/* Comprehensive 360° Placement Readiness Diagnostic Report Modal (A4 Multi-page Bordered) */}
       <PlacementReportModal
         isOpen={isReportOpen}
         onClose={() => setIsReportOpen(false)}
@@ -249,14 +329,22 @@ export default function App() {
         userProfile={userProfile}
       />
 
+      {/* Interactive Spinning Wheel Modal with Sound */}
+      <SpinningWheelModal
+        isOpen={isWheelOpen}
+        onClose={() => setIsWheelOpen(false)}
+        onQuestionAnswered={handleWheelQuestionAnswered}
+        wheelScore={wheelScore}
+      />
+
       {/* Elite Academic Footer */}
       <footer className="mt-20 border-t border-zinc-900 bg-black py-10 text-center text-xs text-zinc-500 no-print">
         <div className="max-w-7xl mx-auto px-4 space-y-2.5">
           <div className="font-bold text-zinc-300 font-serif tracking-wide text-sm">
             JODHPUR INSTITUTE OF ENGINEERING AND TECHNOLOGY · JIET CONNECT
           </div>
-          <p className="text-[11px] text-amber-400 font-medium">
-            An All-in-One Educational Hub for Comprehensive Coding Practice · Powered by Kapil
+          <p className="text-[11px] text-amber-400 font-bold uppercase tracking-widest">
+            POWERED BY KAPIL ONLY
           </p>
           <div className="text-[10px] text-zinc-600">
             Autonomous Institution · Approved by AICTE, Affiliated to BTU Bikaner · NH-62, Mogra, Jodhpur, Rajasthan

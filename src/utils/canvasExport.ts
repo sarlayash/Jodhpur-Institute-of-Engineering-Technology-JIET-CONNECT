@@ -1,12 +1,14 @@
 import { Badge, UserProfile } from '../types';
+import { getVerificationUrl } from './qrHelper';
+import QRCode from 'qrcode';
 
 /**
  * Exports the Certificate as a crisp high-resolution 2400x1500 PNG
+ * Cleaned of Deans - POWERED BY KAPIL ONLY with bulletproof Mobile QR Code.
  */
 export async function downloadCertificateAsPng(
   userProfile: UserProfile,
-  credentialId: string,
-  qrDataUrl: string
+  credentialId: string
 ): Promise<void> {
   const canvas = document.createElement('canvas');
   const width = 2400;
@@ -15,6 +17,14 @@ export async function downloadCertificateAsPng(
   canvas.height = height;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
+
+  // Generate verified mobile-proof QR Code data URL
+  const mobileVerifiedUrl = getVerificationUrl(credentialId);
+  const qrDataUrl = await QRCode.toDataURL(mobileVerifiedUrl, {
+    width: 240,
+    margin: 1,
+    color: { dark: '#09090b', light: '#ffffff' }
+  });
 
   // 1. Deep Obsidian Gradient Background
   const bgGrad = ctx.createLinearGradient(0, 0, width, height);
@@ -80,15 +90,15 @@ export async function downloadCertificateAsPng(
   ctx.fillText('IN COMPREHENSIVE CODING & ALGORITHMIC ARCHITECTURE', centerX, 480);
 
   ctx.fillStyle = '#fbbf24';
-  ctx.font = 'bold 22px sans-serif';
-  ctx.letterSpacing = '2px';
-  ctx.fillText('JIET CONNECT PROGRAM · POWERED BY KAPIL', centerX, 525);
+  ctx.font = 'bold 24px sans-serif';
+  ctx.letterSpacing = '3px';
+  ctx.fillText('POWERED BY KAPIL ONLY', centerX, 530);
 
   // 6. Recipient Introduction
   ctx.fillStyle = '#a1a1aa';
   ctx.font = 'italic 26px Georgia, serif';
   ctx.letterSpacing = '1px';
-  ctx.fillText('This is to officially certify that', centerX, 610);
+  ctx.fillText('This is to officially certify that', centerX, 615);
 
   // 7. Student Name in Radiant Gold
   const name = userProfile.name || 'Honorable Student';
@@ -100,14 +110,14 @@ export async function downloadCertificateAsPng(
   ctx.fillStyle = nameGrad;
   ctx.font = 'bold 72px Georgia, serif';
   ctx.letterSpacing = '2px';
-  ctx.fillText(name, centerX, 700);
+  ctx.fillText(name, centerX, 705);
 
   // Underline beneath name
   ctx.strokeStyle = '#d97706';
   ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(centerX - 350, 735);
-  ctx.lineTo(centerX + 350, 735);
+  ctx.moveTo(centerX - 350, 740);
+  ctx.lineTo(centerX + 350, 740);
   ctx.stroke();
 
   // 8. Academic Meta (Roll & Branch)
@@ -115,7 +125,7 @@ export async function downloadCertificateAsPng(
   ctx.font = '24px sans-serif';
   ctx.letterSpacing = '1px';
   const metaText = `Roll No: ${userProfile.rollNo || 'JIET-2026-REG'}  ·  Department of ${userProfile.branch || 'Computer Science & Engineering'}`;
-  ctx.fillText(metaText, centerX, 790);
+  ctx.fillText(metaText, centerX, 795);
 
   // 9. Citation paragraph
   ctx.fillStyle = '#a1a1aa';
@@ -123,10 +133,10 @@ export async function downloadCertificateAsPng(
   ctx.letterSpacing = '0.5px';
   const p1 = 'has demonstrated outstanding algorithmic competence by analyzing, testing, compiling, and solving rigorous';
   const p2 = 'algorithmic engineering problems across C, C++, Java, and Python, mastering time-space complexity optimization.';
-  ctx.fillText(p1, centerX, 860);
-  ctx.fillText(p2, centerX, 900);
+  ctx.fillText(p1, centerX, 865);
+  ctx.fillText(p2, centerX, 905);
 
-  // 10. QR Code Image
+  // 10. QR Code Image (Mobile-Ready)
   if (qrDataUrl) {
     const qrImg = new Image();
     await new Promise((resolve) => {
@@ -134,9 +144,9 @@ export async function downloadCertificateAsPng(
       qrImg.src = qrDataUrl;
     });
 
-    const qrSize = 170;
+    const qrSize = 175;
     const qrX = centerX - qrSize / 2;
-    const qrY = 1040;
+    const qrY = 1030;
 
     // Gold frame around QR
     ctx.fillStyle = '#ffffff';
@@ -150,71 +160,73 @@ export async function downloadCertificateAsPng(
     ctx.fillStyle = '#fbbf24';
     ctx.font = 'bold 16px monospace';
     ctx.letterSpacing = '1px';
-    ctx.fillText('SCAN / CLICK TO VERIFY', centerX, qrY + qrSize + 32);
+    ctx.fillText('SCAN ON ANY PHONE TO VERIFY', centerX, qrY + qrSize + 34);
   }
 
-  // 11. Left Signature: Kapil Narula
-  const sigLeftX = 380;
+  // 11. Sole Faculty Signature: Kapil Narula (POWERED BY KAPIL ONLY)
+  const sigLeftX = 400;
   const sigY = 1140;
 
   ctx.fillStyle = '#fde68a';
-  ctx.font = 'italic bold 36px Georgia, serif';
+  ctx.font = 'italic bold 40px Georgia, serif';
   ctx.textAlign = 'center';
   ctx.fillText('Kapil Narula', sigLeftX, sigY);
 
-  ctx.strokeStyle = '#52525b';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.moveTo(sigLeftX - 140, sigY + 15);
-  ctx.lineTo(sigLeftX + 140, sigY + 15);
+  ctx.moveTo(sigLeftX - 160, sigY + 15);
+  ctx.lineTo(sigLeftX + 160, sigY + 15);
   ctx.stroke();
 
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 20px sans-serif';
-  ctx.fillText('KAPIL', sigLeftX, sigY + 45);
-
-  ctx.fillStyle = '#a1a1aa';
-  ctx.font = '17px sans-serif';
-  ctx.fillText('Lead Faculty & Platform Architect', sigLeftX, sigY + 72);
+  ctx.font = 'bold 22px sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('KAPIL NARULA', sigLeftX, sigY + 46);
 
   ctx.fillStyle = '#fbbf24';
-  ctx.font = '15px sans-serif';
-  ctx.fillText('JIET Coding Curriculum', sigLeftX, sigY + 96);
+  ctx.font = 'bold 18px sans-serif';
+  ctx.fillText('Lead Faculty & Platform Architect', sigLeftX, sigY + 75);
 
-  // 12. Right Signature: Dean Academics
-  const sigRightX = width - 380;
+  ctx.fillStyle = '#a1a1aa';
+  ctx.font = '16px sans-serif';
+  ctx.fillText('POWERED BY KAPIL ONLY', sigLeftX, sigY + 100);
 
-  ctx.fillStyle = '#e4e4e7';
-  ctx.font = 'italic bold 36px Georgia, serif';
-  ctx.fillText('Dean Academics', sigRightX, sigY);
+  // 12. Right Side: Official Verification Authority Seal (No Deans)
+  const sigRightX = width - 400;
+
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 22px sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('AUTHENTICATED CREDENTIAL', sigRightX, sigY);
 
   ctx.strokeStyle = '#52525b';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(sigRightX - 140, sigY + 15);
-  ctx.lineTo(sigRightX + 140, sigY + 15);
+  ctx.moveTo(sigRightX - 160, sigY + 15);
+  ctx.lineTo(sigRightX + 160, sigY + 15);
   ctx.stroke();
 
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 20px sans-serif';
-  ctx.fillText('JIET ACADEMIC COUNCIL', sigRightX, sigY + 45);
+  ctx.font = 'bold 18px monospace';
+  ctx.fillText(`ID: ${credentialId}`, sigRightX, sigY + 46);
 
-  ctx.fillStyle = '#f59e0b';
-  ctx.font = 'bold 17px monospace';
-  ctx.fillText(`ID: ${credentialId}`, sigRightX, sigY + 72);
+  ctx.fillStyle = '#d4d4d8';
+  ctx.font = '16px sans-serif';
+  ctx.fillText('JIET CONNECT REPOSITORY', sigRightX, sigY + 75);
 
   ctx.fillStyle = '#71717a';
   ctx.font = '15px sans-serif';
   const issueDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  ctx.fillText(`Issued: ${issueDate}`, sigRightX, sigY + 96);
+  ctx.fillText(`Validated: ${issueDate}`, sigRightX, sigY + 100);
 
   // Trigger browser download
   const cleanName = (userProfile.name || 'Candidate').replace(/[^a-zA-Z0-9]/g, '_');
-  triggerCanvasDownload(canvas, `${cleanName}_JIET_Certificate.png`);
+  triggerCanvasDownload(canvas, `${cleanName}_JIET_Certificate_PoweredByKapil.png`);
 }
 
 /**
- * Exports an individual Badge as a rich 1200x1200 PNG badge medal
+ * Exports an individual Badge as a rich 1200x1200 PNG badge medal (POWERED BY KAPIL ONLY)
  */
 export async function downloadBadgeAsPng(badge: Badge, userProfile: UserProfile): Promise<void> {
   const canvas = document.createElement('canvas');
@@ -308,25 +320,25 @@ export async function downloadBadgeAsPng(badge: Badge, userProfile: UserProfile)
   ctx.font = '20px sans-serif';
   ctx.fillText(badge.requirement, center, center + 130);
 
-  // Kapil Faculty Signature Seal
+  // Kapil Faculty Signature Seal (POWERED BY KAPIL ONLY)
   ctx.fillStyle = '#fde68a';
-  ctx.font = 'italic bold 28px Georgia, serif';
-  ctx.fillText('Kapil Narula', center, center + 230);
+  ctx.font = 'italic bold 32px Georgia, serif';
+  ctx.fillText('Kapil Narula', center, center + 225);
 
-  ctx.strokeStyle = '#71717a';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.moveTo(center - 100, center + 248);
-  ctx.lineTo(center + 100, center + 248);
+  ctx.moveTo(center - 130, center + 245);
+  ctx.lineTo(center + 130, center + 245);
   ctx.stroke();
 
-  ctx.fillStyle = '#d4d4d8';
-  ctx.font = 'bold 16px sans-serif';
-  ctx.letterSpacing = '2px';
-  ctx.fillText('POWERED BY KAPIL · JIET 2026', center, center + 275);
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 20px sans-serif';
+  ctx.letterSpacing = '3px';
+  ctx.fillText('POWERED BY KAPIL ONLY', center, center + 275);
 
   const cleanTitle = badge.title.replace(/[^a-zA-Z0-9]/g, '_');
-  triggerCanvasDownload(canvas, `${cleanTitle}_JIET_Badge.png`);
+  triggerCanvasDownload(canvas, `${cleanTitle}_Badge_PoweredByKapil.png`);
 }
 
 function drawCornerAccents(ctx: CanvasRenderingContext2D, x: number, y: number, length: number, flipX = false, flipY = false) {

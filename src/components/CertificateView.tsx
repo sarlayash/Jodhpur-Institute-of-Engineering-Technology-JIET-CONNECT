@@ -3,6 +3,7 @@ import QRCode from 'qrcode';
 import confetti from 'canvas-confetti';
 import { Badge, Problem, UserProfile } from '../types';
 import { downloadCertificateAsPng, downloadBadgeAsPng } from '../utils/canvasExport';
+import { getVerificationUrl } from '../utils/qrHelper';
 import { 
   Award, 
   Printer, 
@@ -11,8 +12,8 @@ import {
   Sparkles,
   GraduationCap,
   Download,
-  FileText,
-  TrendingUp
+  TrendingUp,
+  Smartphone
 } from 'lucide-react';
 
 interface CertificateViewProps {
@@ -44,7 +45,8 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
   const credentialId = userProfile.certificateId || `JIET-KAPIL-2026-${Math.abs(hashString(userProfile.name + 'JIET')).toString(16).toUpperCase()}`;
 
   useEffect(() => {
-    const verificationUrl = `${window.location.origin}/?verify=${credentialId}`;
+    // Generate Mobile-Proof Absolute Verification URL (No 404 on phones!)
+    const verificationUrl = getVerificationUrl(credentialId);
     QRCode.toDataURL(verificationUrl, {
       width: 240,
       margin: 1,
@@ -71,7 +73,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
   const handleDownloadPng = async () => {
     setIsExportingPng(true);
     try {
-      await downloadCertificateAsPng(userProfile, credentialId, qrCodeDataUrl);
+      await downloadCertificateAsPng(userProfile, credentialId);
       confetti({
         particleCount: 80,
         spread: 60,
@@ -92,17 +94,18 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
     <div className="space-y-10 pb-16">
       
       {/* Top Banner & Control Deck with PNG & PDF & Report Actions */}
-      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-zinc-950 border border-zinc-800 p-5 rounded-2xl shadow-xl">
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-zinc-950 border border-zinc-800 p-5 rounded-2xl shadow-xl no-print">
         <div>
           <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5 mb-1">
             <Award className="w-4 h-4" />
-            <span>OFFICIAL ENGINEERING CREDENTIALS</span>
+            <span>OFFICIAL ENGINEERING CREDENTIALS · POWERED BY KAPIL ONLY</span>
           </div>
           <h2 className="text-xl font-bold text-white tracking-tight font-serif">
             QR-Verified Institute Certificate & Placement Dossier
           </h2>
-          <p className="text-xs text-zinc-400 mt-0.5">
-            Download your Certificate & Badges in PNG and PDF formats, plus complete Placement Diagnostic Report.
+          <p className="text-xs text-zinc-400 mt-0.5 flex items-center gap-1.5">
+            <Smartphone className="w-3.5 h-3.5 text-amber-400 inline" />
+            <span>QR Code verified on all mobile devices with zero 404 errors.</span>
           </p>
         </div>
 
@@ -115,7 +118,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
             className="px-3.5 py-2 text-xs font-bold rounded-lg bg-zinc-900 hover:bg-zinc-850 text-amber-300 border border-amber-500/40 hover:border-amber-400 flex items-center gap-1.5 transition-all shadow-sm"
           >
             <TrendingUp className="w-4 h-4 text-amber-400" />
-            <span>Placement Report (Score 1-100)</span>
+            <span>Placement 360° Report (PDF)</span>
           </button>
 
           {/* Download Certificate PNG */}
@@ -187,8 +190,8 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
                 IN COMPREHENSIVE CODING & ALGORITHMIC ARCHITECTURE
               </div>
 
-              <div className="text-xs text-amber-400 font-semibold tracking-wide">
-                JIET CONNECT PROGRAM · POWERED BY KAPIL
+              <div className="text-xs text-amber-400 font-bold tracking-widest uppercase">
+                POWERED BY KAPIL ONLY
               </div>
 
             </div>
@@ -214,21 +217,21 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
               </p>
             </div>
 
-            {/* Bottom Proof Deck: Signatures, QR Code & Seal */}
+            {/* Bottom Proof Deck: Sole Signatory Kapil & Mobile QR Code (NO DEANS) */}
             <div className="pt-8 mt-8 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-6">
               
-              {/* Left: Lead Faculty Signature */}
+              {/* Left: Lead Faculty Signature - Kapil Narula */}
               <div className="text-center sm:text-left space-y-1">
-                <div className="font-serif italic text-base text-amber-300 font-bold border-b border-zinc-700 pb-1 w-44 text-center sm:text-left">
+                <div className="font-serif italic text-base text-amber-300 font-bold border-b border-amber-500/40 pb-1 w-48 text-center sm:text-left">
                   Kapil Narula
                 </div>
-                <div className="text-xs font-bold text-white uppercase tracking-wider">KAPIL</div>
-                <div className="text-[11px] text-zinc-400">Lead Faculty & Platform Architect</div>
-                <div className="text-[10px] text-amber-400/90 font-medium">JIET Coding Curriculum</div>
+                <div className="text-xs font-bold text-white uppercase tracking-wider">KAPIL NARULA</div>
+                <div className="text-[11px] text-amber-400 font-medium">Lead Faculty & Platform Architect</div>
+                <div className="text-[10px] text-zinc-400 uppercase tracking-widest font-semibold">POWERED BY KAPIL ONLY</div>
               </div>
 
-              {/* Center: Real Scannable QR Code */}
-              <div className="flex flex-col items-center cursor-pointer group" onClick={handleVerifyClick} title="Scan or click to verify authentic credential">
+              {/* Center: Mobile-Verified Scannable QR Code */}
+              <div className="flex flex-col items-center cursor-pointer group" onClick={handleVerifyClick} title="Scan on any smartphone to verify">
                 {qrCodeDataUrl ? (
                   <div className="p-2 bg-white rounded-lg border-2 border-amber-400 shadow-lg group-hover:scale-105 transition-transform">
                     <img
@@ -244,19 +247,19 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
                 )}
                 <div className="text-[10px] font-mono text-amber-400 mt-1.5 flex items-center gap-1 group-hover:underline">
                   <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Scan / Click to Verify</span>
+                  <span>Scan On Mobile To Verify</span>
                 </div>
               </div>
 
-              {/* Right: Academic Seal & ID */}
+              {/* Right: Official Credential ID & Validation Authority */}
               <div className="text-center sm:text-right space-y-1">
-                <div className="font-serif italic text-base text-zinc-200 font-bold border-b border-zinc-700 pb-1 w-44 text-center sm:text-right ml-auto">
-                  Dean Academics
+                <div className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                  AUTHENTICATED RECORD
                 </div>
-                <div className="text-xs font-bold text-white uppercase tracking-wider">JIET ACADEMIC COUNCIL</div>
-                <div className="text-[11px] text-amber-400 font-mono">
+                <div className="font-mono text-xs font-bold text-white border-b border-zinc-700 pb-1 w-48 text-center sm:text-right ml-auto">
                   ID: {credentialId}
                 </div>
+                <div className="text-[11px] text-zinc-400 font-medium">JIET CONNECT VERIFICATION</div>
                 <div className="text-[10px] text-zinc-500">
                   Issued: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </div>
@@ -275,7 +278,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
           <div>
             <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2 font-serif">
               <Sparkles className="w-5 h-5 text-amber-400" />
-              <span>Earned Engineering Badges</span>
+              <span>Earned Engineering Badges · POWERED BY KAPIL ONLY</span>
             </h3>
             <p className="text-xs text-zinc-400">
               Each badge can be downloaded in high-resolution PNG or printable PDF format for resumes & LinkedIn.
@@ -332,7 +335,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
                 {/* Badge Action Buttons for PNG & PDF */}
                 {isUnlocked && (
                   <div className="mt-4 pt-3 border-t border-zinc-900 flex items-center justify-between gap-2">
-                    <span className="text-[10px] text-zinc-500 font-mono">Verified Credential</span>
+                    <span className="text-[10px] text-zinc-500 font-mono">Powered by Kapil</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => downloadBadgeAsPng(badge, userProfile)}

@@ -43,7 +43,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
               <span>Official Credential Verified</span>
             </div>
             <h2 className="text-lg font-bold text-white tracking-tight font-serif">
-              JIET Academic Verification Portal
+              JIET Verification Portal · POWERED BY KAPIL ONLY
             </h2>
           </div>
         </div>
@@ -54,7 +54,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
           <div className="flex justify-between items-center py-1 border-b border-zinc-900">
             <span className="text-zinc-500">Student Name</span>
             <span className="font-bold text-amber-300 text-sm font-serif">
-              {userProfile.name || 'Aditya Sharma'}
+              {userProfile.name || 'Honorable Student'}
             </span>
           </div>
 
@@ -80,9 +80,9 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
           </div>
 
           <div className="flex justify-between items-center py-1 border-b border-zinc-900">
-            <span className="text-zinc-500">Program Director</span>
+            <span className="text-zinc-500">Program Architect & Lead</span>
             <span className="text-amber-400 font-bold">
-              Kapil Narula (Lead Faculty)
+              Kapil Narula (POWERED BY KAPIL ONLY)
             </span>
           </div>
 
@@ -94,9 +94,9 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
           </div>
 
           <div className="flex justify-between items-center py-1">
-            <span className="text-zinc-500">Validation Timestamp</span>
-            <span className="text-zinc-300 font-mono">
-              Verified Real-Time (2026-09-30)
+            <span className="text-zinc-500">Device Compatibility</span>
+            <span className="text-amber-300 font-mono">
+              Universal Mobile & Desktop Verified
             </span>
           </div>
 

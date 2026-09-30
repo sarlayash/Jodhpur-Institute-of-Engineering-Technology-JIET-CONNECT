@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 @media print {
+  @page {
+    margin: 10mm;
+    size: auto;
+  }
+
   /* Hide standard web UI chrome */
   body * {
     visibility: hidden;
@@ -9,7 +14,7 @@
     display: none !important;
   }
 
-  /* Target: Report Printing */
+  /* Target: Report Printing (Multi-Page A4 Portrait, Zero Cropping, Zero Overlap) */
   body[data-print-target="report"] #jiet-printable-report,
   body[data-print-target="report"] #jiet-printable-report * {
     visibility: visible;
@@ -22,14 +27,26 @@
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding: 16px !important;
+    padding: 0 !important;
     background: #09090b !important;
     color: #f4f4f5 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    overflow: visible !important;
   }
 
-  /* Target: Badge Printing */
+  body[data-print-target="report"] .report-page {
+    break-inside: avoid;
+    page-break-after: always;
+    page-break-inside: avoid;
+    box-sizing: border-box !important;
+    margin-bottom: 20mm !important;
+    border: 2px solid #f59e0b !important;
+    background-color: #000000 !important;
+    padding: 24px !important;
+  }
+
+  /* Target: Badge Printing (Centered Single Page, Zero Overlap) */
   body[data-print-target="badge"] #jiet-printable-badge,
   body[data-print-target="badge"] #jiet-printable-badge * {
     visibility: visible;
@@ -40,17 +57,21 @@
     left: 50%;
     top: 15%;
     transform: translateX(-50%);
-    width: 500px !important;
+    width: 480px !important;
     margin: 0 auto !important;
     padding: 24px !important;
     background: #09090b !important;
     color: #ffffff !important;
     border: 3px solid #f59e0b !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
-  /* Target: Certificate Printing (Default) */
+  /* Target: Certificate Printing (Single Landscape Page, Zero Cropping) */
   body:not([data-print-target="report"]):not([data-print-target="badge"]) #jiet-printable-certificate,
   body:not([data-print-target="report"]):not([data-print-target="badge"]) #jiet-printable-certificate * {
     visibility: visible;
@@ -63,12 +84,16 @@
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding: 24px !important;
+    padding: 20px !important;
     box-shadow: none !important;
-    border-width: 4px !important;
+    border: 4px solid #f59e0b !important;
     background-color: #09090b !important;
     color: #ffffff !important;
+    box-sizing: border-box !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    overflow: visible !important;
   }
 }
