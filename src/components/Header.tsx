@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, User, Sparkles } from 'lucide-react';
+import { Award, User, TrendingUp } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface HeaderProps {
@@ -7,6 +7,7 @@ interface HeaderProps {
   setCurrentTab: (tab: 'curriculum' | 'ide' | 'visualizer' | 'patterns' | 'certificates') => void;
   userProfile: UserProfile;
   onOpenProfile: () => void;
+  onOpenPlacementReport: () => void;
   solvedCount: number;
   totalProblems: number;
 }
@@ -16,11 +17,12 @@ export const Header: React.FC<HeaderProps> = ({
   setCurrentTab,
   userProfile,
   onOpenProfile,
+  onOpenPlacementReport,
   solvedCount,
   totalProblems
 }) => {
   return (
-    <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-md border-b border-zinc-800 text-zinc-100 shadow-xl">
+    <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-md border-b border-zinc-800 text-zinc-100 shadow-xl no-print">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Zone 1: Brand title in Elite Gold & Obsidian */}
@@ -99,14 +101,25 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Zone 3: Primary Actions */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
+          
+          {/* Placement Report Button */}
+          <button
+            onClick={onOpenPlacementReport}
+            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-amber-400/50 text-amber-300 text-xs font-semibold transition-all"
+            title="Download Placement Readiness Report (PDF & Score 1-100)"
+          >
+            <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
+            <span>Placement Report</span>
+          </button>
+
           <button
             onClick={onOpenProfile}
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-amber-500/40 text-zinc-200 text-xs sm:text-sm transition-all"
             title="Edit profile & learner credentials"
           >
             <User className="w-3.5 h-3.5 text-amber-400" />
-            <span className="font-medium truncate max-w-[120px] sm:max-w-[150px]">
+            <span className="font-medium truncate max-w-[100px] sm:max-w-[140px]">
               {userProfile.name || 'Set Name'}
             </span>
             <span className="text-[11px] text-amber-400 font-mono hidden sm:inline tabular-nums">
@@ -119,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-black shadow-md shadow-amber-500/20 transition-all active:scale-95"
           >
             <Award className="w-4 h-4 fill-black" />
-            <span className="hidden sm:inline">QR Certificate</span>
+            <span className="hidden sm:inline">Credentials</span>
           </button>
         </div>
 
@@ -155,7 +168,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={() => setCurrentTab('certificates')}
           className={`px-2 py-1 rounded ${currentTab === 'certificates' ? 'text-amber-400 font-semibold' : 'text-zinc-400'}`}
         >
-          Badges
+          Credentials
         </button>
       </div>
     </header>

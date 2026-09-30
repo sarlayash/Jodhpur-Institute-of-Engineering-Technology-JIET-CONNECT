@@ -8,9 +8,12 @@ import { VisualizerTab } from './components/VisualizerTab';
 import { PatternTipsTab } from './components/PatternTipsTab';
 import { CertificateView } from './components/CertificateView';
 import { VerificationModal } from './components/VerificationModal';
+import { PlacementReportModal } from './components/PlacementReportModal';
+import { BadgeDownloadModal } from './components/BadgeDownloadModal';
 import { allProblems } from './data/problemsData';
 import { initialBadges } from './data/badgesData';
-import { Problem, UserProfile } from './types';
+import { generatePlacementReport } from './utils/reportGenerator';
+import { Badge, Problem, UserProfile } from './types';
 
 const STORAGE_KEY = 'jiet_connect_learner_profile';
 
@@ -44,6 +47,8 @@ export default function App() {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isVerificationOpen, setIsVerificationOpen] = useState(false);
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [selectedBadgeForDownload, setSelectedBadgeForDownload] = useState<Badge | null>(null);
   const [verificationCredentialId, setVerificationCredentialId] = useState('');
 
   // Check if initial user has no name -> open onboarding modal
@@ -131,6 +136,9 @@ export default function App() {
   const solvedSet = new Set(userProfile.solvedProblemIds);
   const isCurrentProblemSolved = solvedSet.has(currentProblem.id);
 
+  // Compute live placement report data
+  const reportData = generatePlacementReport(userProfile, allProblems);
+
   return (
     <div className="min-h-screen bg-[#070709] text-zinc-100 font-sans selection:bg-amber-400/30">
       
@@ -140,6 +148,7 @@ export default function App() {
         setCurrentTab={setCurrentTab}
         userProfile={userProfile}
         onOpenProfile={() => setIsEditProfileOpen(true)}
+        onOpenPlacementReport={() => setIsReportOpen(true)}
         solvedCount={userProfile.solvedProblemIds.length}
         totalProblems={allProblems.length}
       />
@@ -195,6 +204,8 @@ export default function App() {
               setIsVerificationOpen(true);
             }}
             onOpenEditProfile={() => setIsEditProfileOpen(true)}
+            onOpenPlacementReport={() => setIsReportOpen(true)}
+            onSelectBadge={(badge) => setSelectedBadgeForDownload(badge)}
           />
         )}
       </main>
@@ -223,8 +234,23 @@ export default function App() {
         credentialId={verificationCredentialId || userProfile.certificateId}
       />
 
+      {/* Comprehensive Placement Readiness Diagnostic Report Modal */}
+      <PlacementReportModal
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        reportData={reportData}
+      />
+
+      {/* Badge PNG & PDF Download Modal */}
+      <BadgeDownloadModal
+        badge={selectedBadgeForDownload}
+        isOpen={!!selectedBadgeForDownload}
+        onClose={() => setSelectedBadgeForDownload(null)}
+        userProfile={userProfile}
+      />
+
       {/* Elite Academic Footer */}
-      <footer className="mt-20 border-t border-zinc-900 bg-black py-10 text-center text-xs text-zinc-500">
+      <footer className="mt-20 border-t border-zinc-900 bg-black py-10 text-center text-xs text-zinc-500 no-print">
         <div className="max-w-7xl mx-auto px-4 space-y-2.5">
           <div className="font-bold text-zinc-300 font-serif tracking-wide text-sm">
             JODHPUR INSTITUTE OF ENGINEERING AND TECHNOLOGY · JIET CONNECT

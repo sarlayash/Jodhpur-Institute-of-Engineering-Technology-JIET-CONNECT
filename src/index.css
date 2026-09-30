@@ -1,13 +1,62 @@
 @import "tailwindcss";
 
 @media print {
+  /* Hide standard web UI chrome */
   body * {
     visibility: hidden;
   }
-  #jiet-printable-certificate, #jiet-printable-certificate * {
+  .no-print {
+    display: none !important;
+  }
+
+  /* Target: Report Printing */
+  body[data-print-target="report"] #jiet-printable-report,
+  body[data-print-target="report"] #jiet-printable-report * {
     visibility: visible;
   }
-  #jiet-printable-certificate {
+
+  body[data-print-target="report"] #jiet-printable-report {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    background: #09090b !important;
+    color: #f4f4f5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Target: Badge Printing */
+  body[data-print-target="badge"] #jiet-printable-badge,
+  body[data-print-target="badge"] #jiet-printable-badge * {
+    visibility: visible;
+  }
+
+  body[data-print-target="badge"] #jiet-printable-badge {
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translateX(-50%);
+    width: 500px !important;
+    margin: 0 auto !important;
+    padding: 24px !important;
+    background: #09090b !important;
+    color: #ffffff !important;
+    border: 3px solid #f59e0b !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Target: Certificate Printing (Default) */
+  body:not([data-print-target="report"]):not([data-print-target="badge"]) #jiet-printable-certificate,
+  body:not([data-print-target="report"]):not([data-print-target="badge"]) #jiet-printable-certificate * {
+    visibility: visible;
+  }
+
+  body:not([data-print-target="report"]):not([data-print-target="badge"]) #jiet-printable-certificate {
     position: absolute;
     left: 0;
     top: 0;
@@ -17,9 +66,9 @@
     padding: 24px !important;
     box-shadow: none !important;
     border-width: 4px !important;
-    background-color: #fcfaf5 !important;
+    background-color: #09090b !important;
+    color: #ffffff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 }
-
