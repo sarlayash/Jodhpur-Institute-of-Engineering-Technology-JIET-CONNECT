@@ -58,7 +58,7 @@ export const CurriculumView: React.FC<CurriculumViewProps> = ({
           <div className="flex items-center gap-2 text-xs font-bold tracking-widest text-amber-400 mb-2 uppercase">
             <span>DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</span>
             <span className="text-zinc-600">·</span>
-            <span>POWERED BY KAPIL</span>
+            <span>POWERED BY KAPIL | KNOWLEDGE MULTIVERSE ARCHITECT</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white mb-2 font-serif">

@@ -64,7 +64,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
               <span>No Sign-Up or Passwords Required</span>
             </div>
             <p className="text-zinc-400 leading-relaxed">
-              Enter your name to personalize your elite engineering workspace, solve programs in C, C++, Java, & Python, unlock prestige badges, and generate official QR-verified certificates powered by Kapil.
+              Enter your name to personalize your elite engineering workspace, solve programs in C, C++, Java, & Python, unlock prestige badges, and generate official QR-verified certificates Powered By Kapil | Knowledge Multiverse Architect.
             </p>
           </div>
         )}

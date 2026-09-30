@@ -63,7 +63,7 @@ export const PlacementReportModal: React.FC<PlacementReportModalProps> = ({
                 360° Placement Readiness Diagnostic Report
               </h3>
               <p className="text-[11px] text-amber-400 font-medium">
-                JIET CONNECT · POWERED BY KAPIL ONLY
+                JIET CONNECT · Powered By Kapil | Knowledge Multiverse Architect
               </p>
             </div>
           </div>
@@ -101,7 +101,7 @@ export const PlacementReportModal: React.FC<PlacementReportModalProps> = ({
                   360° COMPREHENSIVE PLACEMENT READINESS REPORT
                 </h1>
                 <div className="text-xs text-amber-400 font-bold tracking-wider uppercase mt-0.5">
-                  POWERED BY KAPIL ONLY
+                  Powered By Kapil | Knowledge Multiverse Architect
                 </div>
               </div>
 
@@ -239,7 +239,7 @@ export const PlacementReportModal: React.FC<PlacementReportModalProps> = ({
 
             {/* Page 1 Footer */}
             <div className="pt-3 border-t border-zinc-850 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
-              <span>JIET CONNECT · 360° PLACEMENT DOSSIER · POWERED BY KAPIL ONLY</span>
+              <span>JIET CONNECT · 360° PLACEMENT DOSSIER · Powered By Kapil | Knowledge Multiverse Architect</span>
               <span>Page 1 of 2</span>
             </div>
 
@@ -369,7 +369,7 @@ export const PlacementReportModal: React.FC<PlacementReportModalProps> = ({
                 </div>
                 <div className="font-bold text-white text-[11px] uppercase tracking-wider">KAPIL NARULA</div>
                 <div className="text-[10px] text-amber-400 font-medium">Lead Faculty & Platform Architect</div>
-                <div className="text-[9px] text-zinc-400 uppercase tracking-widest font-semibold">POWERED BY KAPIL ONLY</div>
+                <div className="text-[9px] text-zinc-400 uppercase tracking-widest font-semibold">Powered By Kapil | Knowledge Multiverse Architect</div>
               </div>
 
               <div className="text-center sm:text-right space-y-1">
@@ -386,7 +386,7 @@ export const PlacementReportModal: React.FC<PlacementReportModalProps> = ({
 
             {/* Page 2 Footer */}
             <div className="pt-3 border-t border-zinc-850 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
-              <span>JIET CONNECT · 360° PLACEMENT DOSSIER · POWERED BY KAPIL ONLY</span>
+              <span>JIET CONNECT · 360° PLACEMENT DOSSIER · Powered By Kapil | Knowledge Multiverse Architect</span>
               <span>Page 2 of 2</span>
             </div>
 

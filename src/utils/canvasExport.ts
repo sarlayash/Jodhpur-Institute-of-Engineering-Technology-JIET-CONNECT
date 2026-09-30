@@ -4,7 +4,7 @@ import QRCode from 'qrcode';
 
 /**
  * Exports the Certificate as a crisp high-resolution 2400x1500 PNG
- * Cleaned of Deans - POWERED BY KAPIL ONLY with bulletproof Mobile QR Code.
+ * Cleaned of Deans - Powered By Kapil | Knowledge Multiverse Architect with bulletproof Mobile QR Code.
  */
 export async function downloadCertificateAsPng(
   userProfile: UserProfile,
@@ -90,9 +90,9 @@ export async function downloadCertificateAsPng(
   ctx.fillText('IN COMPREHENSIVE CODING & ALGORITHMIC ARCHITECTURE', centerX, 480);
 
   ctx.fillStyle = '#fbbf24';
-  ctx.font = 'bold 24px sans-serif';
-  ctx.letterSpacing = '3px';
-  ctx.fillText('POWERED BY KAPIL ONLY', centerX, 530);
+  ctx.font = 'bold 22px sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('Powered By Kapil | Knowledge Multiverse Architect', centerX, 530);
 
   // 6. Recipient Introduction
   ctx.fillStyle = '#a1a1aa';
@@ -189,8 +189,8 @@ export async function downloadCertificateAsPng(
   ctx.fillText('Lead Faculty & Platform Architect', sigLeftX, sigY + 75);
 
   ctx.fillStyle = '#a1a1aa';
-  ctx.font = '16px sans-serif';
-  ctx.fillText('POWERED BY KAPIL ONLY', sigLeftX, sigY + 100);
+  ctx.font = '14px sans-serif';
+  ctx.fillText('Powered By Kapil | Knowledge Multiverse Architect', sigLeftX, sigY + 100);
 
   // 12. Right Side: Official Verification Authority Seal (No Deans)
   const sigRightX = width - 400;
@@ -226,7 +226,7 @@ export async function downloadCertificateAsPng(
 }
 
 /**
- * Exports an individual Badge as a rich 1200x1200 PNG badge medal (POWERED BY KAPIL ONLY)
+ * Exports an individual Badge as a rich 1200x1200 PNG badge medal (Powered By Kapil | Knowledge Multiverse Architect)
  */
 export async function downloadBadgeAsPng(badge: Badge, userProfile: UserProfile): Promise<void> {
   const canvas = document.createElement('canvas');
@@ -333,9 +333,9 @@ export async function downloadBadgeAsPng(badge: Badge, userProfile: UserProfile)
   ctx.stroke();
 
   ctx.fillStyle = '#fbbf24';
-  ctx.font = 'bold 20px sans-serif';
-  ctx.letterSpacing = '3px';
-  ctx.fillText('POWERED BY KAPIL ONLY', center, center + 275);
+  ctx.font = 'bold 16px sans-serif';
+  ctx.letterSpacing = '1px';
+  ctx.fillText('Powered By Kapil | Knowledge Multiverse Architect', center, center + 275);
 
   const cleanTitle = badge.title.replace(/[^a-zA-Z0-9]/g, '_');
   triggerCanvasDownload(canvas, `${cleanTitle}_Badge_PoweredByKapil.png`);

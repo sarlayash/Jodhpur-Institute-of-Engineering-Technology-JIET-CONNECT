@@ -1,6 +1,6 @@
 # JODHPUR INSTITUTE OF ENGINEERING AND TECHNOLOGY — JIET CONNECT
 
-> **An All-in-One Educational Hub for Comprehensive Coding Practice Powered by Kapil**
+> **An All-in-One Educational Hub for Comprehensive Coding Practice · Powered By Kapil | Knowledge Multiverse Architect**
 
 [![Live App](https://img.shields.io/badge/Live_App-Available_Now-blue?style=for-the-badge&logo=googlecloud)](https://ais-pre-ccfqdlygdxhqe7rlrurckw-252756721792.asia-east1.run.app)
 [![C / C++ / Java / Python](https://img.shields.io/badge/Languages-C%20|%20C++%20|%20Java%20|%20Python-orange?style=for-the-badge)](https://ais-pre-ccfqdlygdxhqe7rlrurckw-252756721792.asia-east1.run.app)
@@ -113,4 +113,4 @@ npm run build
 
 ---
 
-© 2026 Jodhpur Institute of Engineering and Technology (JIET). Powered by Kapil.
+© 2026 Jodhpur Institute of Engineering and Technology (JIET). Powered By Kapil | Knowledge Multiverse Architect.

@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-amber-400" />
               </div>
               <div className="text-[10px] text-amber-400 font-bold tracking-wider uppercase leading-none hidden sm:block">
-                POWERED BY KAPIL ONLY
+                Powered By Kapil | Knowledge Multiverse Architect
               </div>
             </div>
           </button>

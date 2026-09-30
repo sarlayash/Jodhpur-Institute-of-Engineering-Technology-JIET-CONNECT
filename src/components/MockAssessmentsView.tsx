@@ -243,7 +243,7 @@ export const MockAssessmentsView: React.FC<MockAssessmentsViewProps> = ({
 
           <div className="space-y-1">
             <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest">
-              ASSESSMENT COMPLETED · POWERED BY KAPIL ONLY
+              ASSESSMENT COMPLETED · Powered By Kapil | Knowledge Multiverse Architect
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-serif">
               {selectedAssessment.title}

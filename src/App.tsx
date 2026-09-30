@@ -344,7 +344,7 @@ export default function App() {
             JODHPUR INSTITUTE OF ENGINEERING AND TECHNOLOGY · JIET CONNECT
           </div>
           <p className="text-[11px] text-amber-400 font-bold uppercase tracking-widest">
-            POWERED BY KAPIL ONLY
+            Powered By Kapil | Knowledge Multiverse Architect
           </p>
           <div className="text-[10px] text-zinc-600">
             Autonomous Institution · Approved by AICTE, Affiliated to BTU Bikaner · NH-62, Mogra, Jodhpur, Rajasthan

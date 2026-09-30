@@ -43,7 +43,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
               <span>Official Credential Verified</span>
             </div>
             <h2 className="text-lg font-bold text-white tracking-tight font-serif">
-              JIET Verification Portal · POWERED BY KAPIL ONLY
+              JIET Verification Portal · Powered By Kapil | Knowledge Multiverse Architect
             </h2>
           </div>
         </div>
@@ -82,7 +82,7 @@ export const VerificationModal: React.FC<VerificationModalProps> = ({
           <div className="flex justify-between items-center py-1 border-b border-zinc-900">
             <span className="text-zinc-500">Program Architect & Lead</span>
             <span className="text-amber-400 font-bold">
-              Kapil Narula (POWERED BY KAPIL ONLY)
+              Kapil Narula (Powered By Kapil | Knowledge Multiverse Architect)
             </span>
           </div>
 

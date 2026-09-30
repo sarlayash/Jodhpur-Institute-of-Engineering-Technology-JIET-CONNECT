@@ -98,7 +98,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
         <div>
           <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5 mb-1">
             <Award className="w-4 h-4" />
-            <span>OFFICIAL ENGINEERING CREDENTIALS · POWERED BY KAPIL ONLY</span>
+            <span>OFFICIAL ENGINEERING CREDENTIALS · POWERED BY KAPIL | KNOWLEDGE MULTIVERSE ARCHITECT</span>
           </div>
           <h2 className="text-xl font-bold text-white tracking-tight font-serif">
             QR-Verified Institute Certificate & Placement Dossier
@@ -191,7 +191,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
               </div>
 
               <div className="text-xs text-amber-400 font-bold tracking-widest uppercase">
-                POWERED BY KAPIL ONLY
+                Powered By Kapil | Knowledge Multiverse Architect
               </div>
 
             </div>
@@ -227,7 +227,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
                 </div>
                 <div className="text-xs font-bold text-white uppercase tracking-wider">KAPIL NARULA</div>
                 <div className="text-[11px] text-amber-400 font-medium">Lead Faculty & Platform Architect</div>
-                <div className="text-[10px] text-zinc-400 uppercase tracking-widest font-semibold">POWERED BY KAPIL ONLY</div>
+                <div className="text-[9px] text-zinc-400 uppercase tracking-widest font-semibold">Powered By Kapil | Knowledge Multiverse Architect</div>
               </div>
 
               {/* Center: Mobile-Verified Scannable QR Code */}
@@ -278,7 +278,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
           <div>
             <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2 font-serif">
               <Sparkles className="w-5 h-5 text-amber-400" />
-              <span>Earned Engineering Badges · POWERED BY KAPIL ONLY</span>
+              <span>Earned Engineering Badges · Powered By Kapil | Knowledge Multiverse Architect</span>
             </h3>
             <p className="text-xs text-zinc-400">
               Each badge can be downloaded in high-resolution PNG or printable PDF format for resumes & LinkedIn.
@@ -335,7 +335,7 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
                 {/* Badge Action Buttons for PNG & PDF */}
                 {isUnlocked && (
                   <div className="mt-4 pt-3 border-t border-zinc-900 flex items-center justify-between gap-2">
-                    <span className="text-[10px] text-zinc-500 font-mono">Powered by Kapil</span>
+                    <span className="text-[10px] text-zinc-500 font-mono">Powered By Kapil | Knowledge Multiverse Architect</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => downloadBadgeAsPng(badge, userProfile)}
