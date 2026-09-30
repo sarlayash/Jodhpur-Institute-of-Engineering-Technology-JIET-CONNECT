@@ -24,7 +24,14 @@ export const BadgeDownloadModal: React.FC<BadgeDownloadModalProps> = ({
 
   const handleDownloadPdf = () => {
     document.body.setAttribute('data-print-target', 'badge');
-    window.print();
+    const cleanup = () => {
+      document.body.removeAttribute('data-print-target');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    setTimeout(() => {
+      window.print();
+    }, 150);
   };
 
   return (

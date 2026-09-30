@@ -44,13 +44,20 @@ export const PlacementReportModal: React.FC<PlacementReportModalProps> = ({
 
   const handleDownloadPdf = () => {
     document.body.setAttribute('data-print-target', 'report');
-    window.print();
+    const cleanup = () => {
+      document.body.removeAttribute('data-print-target');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    setTimeout(() => {
+      window.print();
+    }, 150);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md overflow-y-auto no-print">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md overflow-y-auto placement-modal-backdrop">
       
-      <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-4xl w-full my-8 shadow-2xl shadow-black text-zinc-100 relative flex flex-col max-h-[92vh]">
+      <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-4xl w-full my-8 shadow-2xl shadow-black text-zinc-100 relative flex flex-col max-h-[92vh] placement-modal-dialog">
         
         {/* Modal Top Control Bar (Hidden in Print) */}
         <div className="p-4 sm:p-5 border-b border-zinc-800 flex items-center justify-between bg-black/80 rounded-t-2xl no-print">

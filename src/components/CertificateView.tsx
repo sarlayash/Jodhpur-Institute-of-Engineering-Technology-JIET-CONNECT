@@ -61,13 +61,20 @@ export const CertificateView: React.FC<CertificateViewProps> = ({
 
   const handleDownloadPdf = () => {
     document.body.setAttribute('data-print-target', 'certificate');
+    const cleanup = () => {
+      document.body.removeAttribute('data-print-target');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
     confetti({
       particleCount: 100,
       spread: 80,
       colors: ['#f59e0b', '#d97706', '#ffffff', '#71717a'],
       origin: { y: 0.6 }
     });
-    window.print();
+    setTimeout(() => {
+      window.print();
+    }, 150);
   };
 
   const handleDownloadPng = async () => {
