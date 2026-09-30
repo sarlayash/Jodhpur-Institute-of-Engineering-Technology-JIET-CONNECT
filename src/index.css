@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #jiet-printable-certificate, #jiet-printable-certificate * {
+    visibility: visible;
+  }
+  #jiet-printable-certificate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 24px !important;
+    box-shadow: none !important;
+    border-width: 4px !important;
+    background-color: #fcfaf5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+

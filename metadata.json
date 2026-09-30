@@ -1,0 +1,6 @@
+{
+  "name": "JIET CONNECT - Coding Hub",
+  "description": "Jodhpur Institute of Engineering and Technology comprehensive coding practice platform powered by Kapil. Test, compile, and visualize C, C++, Java, and Python programs with pattern tips, badges, and QR-verified certificates.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
